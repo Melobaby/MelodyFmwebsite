@@ -1,0 +1,4 @@
+{"shows":[
+{"days":["monday","tuesday","wednesday","thursday","friday"],"start":"06:00","end":"10:00","title":"Sample Morning Show","host":"Host name"},
+{"days":["monday","tuesday","wednesday","thursday","friday"],"start":"10:00","end":"14:00","title":"Sample Midday Mix","host":"Host name"}
+]}

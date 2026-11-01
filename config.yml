@@ -1,0 +1,36 @@
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/melody-website
+  branch: main
+media_folder: img/uploads
+public_folder: /img/uploads
+collections:
+  - name: content
+    label: Site content
+    files:
+      - name: schedule
+        label: Programme schedule
+        file: data/schedule.json
+        fields:
+          - label: Programmes
+            name: shows
+            widget: list
+            summary: "{{fields.title}} ({{fields.start}})"
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Host, name: host, widget: string, required: false}
+              - {label: "Start (24h, e.g. 06:00)", name: start, widget: string}
+              - {label: "End (24h, e.g. 10:00)", name: end, widget: string}
+              - {label: Days, name: days, widget: select, multiple: true, options: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]}
+      - name: stories
+        label: Daily stories
+        file: data/stories.json
+        fields:
+          - label: Stories
+            name: stories
+            widget: list
+            summary: "{{fields.date}} {{fields.title}}"
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Date (YYYY-MM-DD), name: date, widget: string}
+              - {label: Summary, name: summary, widget: text}
