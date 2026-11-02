@@ -14,6 +14,11 @@ async function init(){
 
   const btn=document.getElementById("play");
   if(btn){const a=new Audio();btn.onclick=()=>{if(a.paused){a.src=btn.dataset.stream;a.play();btn.classList.add("playing");btn.lastChild.textContent="Pause"}else{a.pause();a.removeAttribute("src");a.load();btn.classList.remove("playing");btn.lastChild.textContent="Listen live"}}}
+
+  get("site.json").then(site=>{const ft=document.querySelector("footer");if(!ft||!site)return;
+    const soc=(site.social||[]).filter(s=>s.url).map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join("");
+    const map="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(site.address||"");
+    ft.innerHTML=`<div class="wrap fgrid"><div><b>Melody 107.7 FM</b><p>Stay Cool with Melody</p></div><div><b>Visit us</b><p>${esc(site.address)}</p><a href="${map}" target="_blank" rel="noopener">Get directions</a></div><div><b>Follow us</b><div class="soc">${soc}</div></div></div><div class="wrap fbase">&copy; ${new Date().getFullYear()} Melody 107.7 FM. All rights reserved.</div>`});
   const sched=await get("schedule.json");const items=(sched&&sched.shows)||[];
   const byDay=d=>items.filter(s=>(s.days||[]).includes(d)).sort((a,b)=>mins(a.start)-mins(b.start));
   const now=lagos();
