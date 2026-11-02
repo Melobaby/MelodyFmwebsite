@@ -6,11 +6,11 @@ const fmt=t=>{const[h,m]=t.split(":").map(Number);return`${h%12||12}:${String(m)
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function rows(list,live){return list.length?`<ul class="rows">${list.map(s=>{const n=live!=null&&mins(s.start)<=live&&live<mins(s.end);return`<li${n?' class="now"':""}><span class="time">${fmt(s.start)} – ${fmt(s.end)}</span><span>${esc(s.title)}${n?' <span class="badge">On air</span>':""}</span><span class="host">${esc(s.host)}</span></li>`}).join("")}</ul>`:'<p class="empty">No programmes listed for this day yet.</p>'}
 async function init(){
-  const NAV=[["index.html","Home"],["schedule.html","Schedule"],["shows.html","Shows"],["stories.html","Stories"],["index.html#contact","Contact"]];
+  const NAV=[["index.html","Home"],["schedule.html","Schedule"],["shows.html","Shows"],["stories.html","Stories"],["team.html","Team"],["transcripts.html","Transcripts"],["index.html#contact","Contact"]];
   const nv=document.querySelector("header nav");
   if(nv){const norm=s=>s.replace(/\.html$/,"")||"index";const here=norm(location.pathname.split("/").pop());
     nv.innerHTML=NAV.map(([h,t])=>`<a href="${h}"${!h.includes("#")&&norm(h)===here?' aria-current="page"':""}>${t}</a>`).join("");
-    const css=document.createElement("style");css.textContent="@media(max-width:780px){nav{gap:10px!important;font-size:.9rem!important}.brand img{width:40px!important;height:40px!important}}";document.head.appendChild(css)}
+    const css=document.createElement("style");css.textContent="@media(max-width:780px){nav{gap:16px!important;font-size:.9rem!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;min-width:0;margin-left:12px}.brand img{width:40px!important;height:40px!important}}";document.head.appendChild(css)}
 
   const btn=document.getElementById("play");
   if(btn){const a=new Audio();btn.onclick=()=>{if(a.paused){a.src=btn.dataset.stream;a.play();btn.classList.add("playing");btn.lastChild.textContent="Pause"}else{a.pause();a.removeAttribute("src");a.load();btn.classList.remove("playing");btn.lastChild.textContent="Listen live"}}}
@@ -37,5 +37,13 @@ async function init(){
     sh.innerHTML=l.length?l.map(s=>{const when=items.filter(x=>x.title===s.title).map(x=>`${dayText(x.days)} · ${fmt(x.start)} – ${fmt(x.end)}`);
       const r=(s.rundown||[]).map(x=>`<li><span class="rt">${esc(x.time)}</span><span><b>${esc(x.segment)}</b>${x.note?`<br><span class="rn">${esc(x.note)}</span>`:""}</span></li>`).join("");
       return`<details class="show"><summary><span class="st">${esc(s.title)}</span><span class="sm">${esc(s.host)}${when.length?" · "+esc(when.join(" | ")):""}</span></summary><div class="sb">${s.description?`<p>${esc(s.description)}</p>`:""}${r?`<h3>Rundown</h3><ol class="run">${r}</ol>`:'<p class="empty">Rundown coming soon.</p>'}</div></details>`}).join(""):'<p class="empty">Shows will appear here.</p>'}
+  const tm=document.getElementById("team-list");
+  if(tm){const d=await get("team.json");const l=(d&&d.team)||[];const ini=n=>String(n).split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+    tm.innerHTML=l.length?l.map(p=>`<article class="person">${p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}" loading="lazy">`:`<div class="ph">${esc(ini(p.name))}</div>`}<h2>${esc(p.name)}</h2><p class="role">${esc(p.role)}</p>${p.bio?`<p class="bio">${esc(p.bio)}</p>`:""}</article>`).join(""):'<p class="empty">Team profiles will appear here.</p>'}
+  const tr=document.getElementById("tr-list");
+  if(tr){const d=await get("transcripts.json");const all=((d&&d.transcripts)||[]).sort((a,b)=>b.date.localeCompare(a.date));const q=document.getElementById("q");
+    const draw=()=>{const k=(q.value||"").toLowerCase().trim();const l=all.filter(t=>!k||[t.title,t.show,t.text].join(" ").toLowerCase().includes(k));
+      tr.innerHTML=l.length?l.map(t=>`<details class="show"><summary><span class="st">${esc(t.title)}</span><span class="sm">${esc(t.show)} · ${new Date(t.date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}</span></summary><div class="sb">${String(t.text||"").split(/\n\s*\n/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join("")}</div></details>`).join(""):'<p class="empty">No transcripts found.</p>'};
+    q.oninput=draw;draw()}
 }
 init();
