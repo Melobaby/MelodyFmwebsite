@@ -1,22 +1,22 @@
 {
- "team": [
-  {
-   "name": "Sample Name",
-   "role": "Presenter",
-   "photo": "",
-   "bio": "Replace with a short, friendly introduction."
-  },
-  {
-   "name": "Another Name",
-   "role": "Producer",
-   "photo": "",
-   "bio": "Replace with a short introduction."
-  },
-  {
-   "name": "Third Name",
-   "role": "Sales and Marketing",
-   "photo": "",
-   "bio": "Replace with a short introduction."
-  }
- ]
+  "team": [
+    {
+      "name": "NIYI OGUNNIRAN (OBA MAJALA)",
+      "role": "GENERAL MANAGER",
+      "photo": "/uploads/WhatsApp Image 2026-08-20 at 10.36.05 AM.jpeg",
+      "bio": "Replace with a short, friendly introduction."
+    },
+    {
+      "name": "Another Name",
+      "role": "Producer",
+      "photo": "",
+      "bio": "Replace with a short introduction."
+    },
+    {
+      "name": "Third Name",
+      "role": "Sales and Marketing",
+      "photo": "",
+      "bio": "Replace with a short introduction."
+    }
+  ]
 }
