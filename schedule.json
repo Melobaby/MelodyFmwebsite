@@ -1,4 +1,95 @@
-{"shows":[
-{"days":["monday","tuesday","wednesday","thursday","friday"],"start":"06:00","end":"10:00","title":"Sample Morning Show","host":"Host name"},
-{"days":["monday","tuesday","wednesday","thursday","friday"],"start":"10:00","end":"14:00","title":"Sample Midday Mix","host":"Host name"}
-]}
+{
+  "shows": [
+    {
+      "title": "Morning  Dew/Nje Etigbo/Agbami Ere Idaraya/From The Dailies/Lawujo Wa",
+      "host": "IN HOUSE",
+      "start": "05:00",
+      "end": "10:00",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ]
+    },
+    {
+      "title": "News in Brief/Iroyin Ni Soki",
+      "host": "In house",
+      "start": "10:00",
+      "end": "10:10",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ]
+    },
+    {
+      "title": "Midday New/Iroyin Ojo Kan'ri/Confam Tori",
+      "host": "IN HOUSE",
+      "start": "12:00",
+      "end": "12:20",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ]
+    },
+    {
+      "title": "BURNING ISSUES",
+      "host": "M.O.I/ISREAL IGE/DAMILOLA OLOGBON",
+      "start": "15:00",
+      "end": "16:00",
+      "days": [
+        "monday",
+        "wednesday"
+      ]
+    },
+    {
+      "title": "ENTREPRENEURS' CORNER",
+      "host": "M.O.I",
+      "start": "15:00",
+      "end": "16:00",
+      "days": [
+        "tuesday"
+      ]
+    },
+    {
+      "title": "KANNAKANNA",
+      "host": "OBA MAJALA",
+      "start": "07:00",
+      "end": "09:00",
+      "days": [
+        "sunday"
+      ]
+    },
+    {
+      "title": "EVENING RUNZ",
+      "host": "SKIMPY",
+      "start": "22:00",
+      "end": "23:00",
+      "days": [
+        "wednesday"
+      ]
+    },
+    {
+      "title": "PROPHETIC NIGHT",
+      "host": "PROPHET SAMUEL ADEBAYO OJO BABA AUTHORITY",
+      "start": "23:00",
+      "end": "00:00",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ]
+    }
+  ]
+}
