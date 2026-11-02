@@ -8,7 +8,7 @@ function rows(list,live){return list.length?`<ul class="rows">${list.map(s=>{con
 async function init(){
   const btn=document.getElementById("play");
   if(btn){const a=new Audio();btn.onclick=()=>{if(a.paused){a.src=btn.dataset.stream;a.play();btn.classList.add("playing");btn.lastChild.textContent="Pause"}else{a.pause();a.removeAttribute("src");a.load();btn.classList.remove("playing");btn.lastChild.textContent="Listen live"}}}
-  const sched=await get("data/schedule.json");const items=(sched&&sched.shows)||[];
+  const sched=await get("schedule.json");const items=(sched&&sched.shows)||[];
   const byDay=d=>items.filter(s=>(s.days||[]).includes(d)).sort((a,b)=>mins(a.start)-mins(b.start));
   const now=lagos();
   const today=document.getElementById("today");
@@ -18,7 +18,10 @@ async function init(){
     tabs.innerHTML=["monday","tuesday","wednesday","thursday","friday","saturday","sunday"].map(d=>`<button role="tab" data-d="${d}">${cap(d)}</button>`).join("");
     tabs.onclick=e=>{if(e.target.dataset.d)show(e.target.dataset.d)};show(now.day)}
   const st=document.getElementById("stories-list");
-  if(st){const d=await get("data/stories.json");const l=((d&&d.stories)||[]).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+  if(st){const d=await get("stories.json");const l=((d&&d.stories)||[]).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
     st.innerHTML=l.length?l.map(s=>`<article class="story"><time>${new Date(s.date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}</time><h3>${esc(s.title)}</h3><p>${esc(s.summary)}</p></article>`).join(""):'<p class="empty">Stories will appear here.</p>'}
+  const all=document.getElementById("stories-all");
+  if(all){const d=await get("stories.json");const l=((d&&d.stories)||[]).sort((a,b)=>b.date.localeCompare(a.date));
+    all.innerHTML=l.length?l.map(s=>`<article class="full"><time>${new Date(s.date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}</time><h2>${esc(s.title)}</h2><p class="lead">${esc(s.summary)}</p>${String(s.body||"").split(/\n\s*\n/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join("")}</article>`).join(""):'<p class="empty">No stories yet.</p>'}
 }
 init();
