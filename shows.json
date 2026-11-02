@@ -1,0 +1,37 @@
+{
+ "shows": [
+  {
+   "title": "Sample Morning Show",
+   "host": "Host name",
+   "description": "Replace this with a short description of the show.",
+   "rundown": [
+    {
+     "time": "6:00 AM",
+     "segment": "Opening and headlines",
+     "note": "Top stories of the day"
+    },
+    {
+     "time": "7:00 AM",
+     "segment": "Traffic and weather update",
+     "note": ""
+    },
+    {
+     "time": "8:00 AM",
+     "segment": "Guest interview",
+     "note": "Replace with today's guest"
+    },
+    {
+     "time": "9:30 AM",
+     "segment": "Listener calls",
+     "note": "Call 0906 201 1077"
+    }
+   ]
+  },
+  {
+   "title": "Sample Midday Mix",
+   "host": "Host name",
+   "description": "Replace this with a short description of the show.",
+   "rundown": []
+  }
+ ]
+}
