@@ -1,36 +1,90 @@
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/melody-website
+  repo: Melobaby/MelodyFmwebsite
   branch: main
-media_folder: img/uploads
-public_folder: /img/uploads
+
+media_folder: uploads
+public_folder: /uploads
+
 collections:
-  - name: content
-    label: Site content
+  - name: site
+    label: Melody 107.7 FM
     files:
       - name: schedule
-        label: Programme schedule
-        file: data/schedule.json
+        label: Programme Schedule
+        file: schedule.json
         fields:
           - label: Programmes
             name: shows
             widget: list
             summary: "{{fields.title}} ({{fields.start}})"
             fields:
-              - {label: Title, name: title, widget: string}
+              - {label: Programme name, name: title, widget: string, hint: "Must match the show name on the Shows page exactly"}
               - {label: Host, name: host, widget: string, required: false}
-              - {label: "Start (24h, e.g. 06:00)", name: start, widget: string}
-              - {label: "End (24h, e.g. 10:00)", name: end, widget: string}
-              - {label: Days, name: days, widget: select, multiple: true, options: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]}
+              - {label: Start time, name: start, widget: string, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Use 24-hour time like 06:00 or 14:30"]}
+              - {label: End time, name: end, widget: string, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Use 24-hour time like 10:00 or 18:30"]}
+              - {label: Days on air, name: days, widget: select, multiple: true, options: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]}
+
+      - name: shows
+        label: Shows and Rundowns
+        file: shows.json
+        fields:
+          - label: Shows
+            name: shows
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - {label: Show name, name: title, widget: string}
+              - {label: Host, name: host, widget: string, required: false}
+              - {label: About the show, name: description, widget: text, required: false}
+              - label: Rundown
+                name: rundown
+                widget: list
+                required: false
+                summary: "{{fields.time}} {{fields.segment}}"
+                fields:
+                  - {label: Time (e.g. 7:00 AM), name: time, widget: string}
+                  - {label: Segment, name: segment, widget: string}
+                  - {label: Note, name: note, widget: string, required: false}
+
       - name: stories
-        label: Daily stories
-        file: data/stories.json
+        label: Daily Stories
+        file: stories.json
         fields:
           - label: Stories
             name: stories
             widget: list
             summary: "{{fields.date}} {{fields.title}}"
             fields:
+              - {label: Headline, name: title, widget: string}
+              - {label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
+              - {label: Short summary, name: summary, widget: text}
+              - {label: Full story, name: body, widget: text, required: false, hint: "Leave a blank line between paragraphs"}
+
+      - name: team
+        label: Team Profiles
+        file: team.json
+        fields:
+          - label: Team
+            name: team
+            widget: list
+            summary: "{{fields.name}} - {{fields.role}}"
+            fields:
+              - {label: Name, name: name, widget: string}
+              - {label: Role, name: role, widget: string}
+              - {label: Photo, name: photo, widget: image, required: false}
+              - {label: Short bio, name: bio, widget: text, required: false}
+
+      - name: transcripts
+        label: Transcripts
+        file: transcripts.json
+        fields:
+          - label: Transcripts
+            name: transcripts
+            widget: list
+            summary: "{{fields.date}} {{fields.title}}"
+            fields:
               - {label: Title, name: title, widget: string}
-              - {label: Date (YYYY-MM-DD), name: date, widget: string}
-              - {label: Summary, name: summary, widget: text}
+              - {label: Show, name: show, widget: string}
+              - {label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
+              - {label: Transcript, name: text, widget: text, hint: "Leave a blank line between paragraphs"}
