@@ -7,31 +7,34 @@
       "rundown": [
         {
           "time": "5:00 AM",
-          "segment": "NJE ETIGBO",
-          "note": "Top stories of the day"
-        },
-        {
-          "time": "6:00 AM",
-          "segment": "AGBAMI ERE IDARAYA",
-          "note": "Sports update around the world"
-        },
-        {
-          "time": "7:00 AM",
-          "segment": "Listener calls",
+          "segment": "Peoples Testimony",
           "note": "Call 09062011077 07048001077"
-        },
-        {
-          "time": "7:30 AM",
-          "segment": "Advert corner",
-          "note": "For Advert 08095111077"
         }
       ]
     },
     {
-      "title": "From the Dailies",
-      "host": "IN HOUSE",
-      "description": "Daily english newspaper review",
-      "rundown": []
+      "title": "NJE ETIGBO",
+      "host": "OBA MAJALA, BODE EDOGBEMI, ANIKE ADE",
+      "description": "A daily Yoruba newspaper review segment that examines, interprets, and discusses major stories making the headlines in Nigerian newspapers.\n\nThe segment brings newspaper content closer to Yoruba-speaking listeners by presenting important national, political, economic, social, and community-related stories in Yoruba.\n\nIt gives listeners an opportunity to understand the stories behind the headlines, discuss their implications, and appreciate how current developments affect everyday life.",
+      "rundown": [
+        {
+          "time": "6:00AM",
+          "segment": "Advert corner/ call ins",
+          "note": "Listeners contribute at the end"
+        }
+      ]
+    },
+    {
+      "title": "AGBAMI ERE IDARAYA",
+      "host": "AGBOOLA WARIS",
+      "description": "Bringing listeners the latest sporting news, results, developments, and discussions.",
+      "rundown": [
+        {
+          "time": "7:00 AM",
+          "segment": "Co analyze",
+          "note": "Call ins"
+        }
+      ]
     },
     {
       "title": "LAWUJO WA",
