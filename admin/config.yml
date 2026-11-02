@@ -88,3 +88,16 @@ collections:
               - {label: Show, name: show, widget: string}
               - {label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
               - {label: Transcript, name: text, widget: text, hint: "Leave a blank line between paragraphs"}
+
+      - name: site
+        label: Site Info (address and social links)
+        file: site.json
+        fields:
+          - {label: Station address, name: address, widget: string}
+          - label: Social links
+            name: social
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - {label: Platform, name: name, widget: select, options: [Facebook, Instagram, TikTok, YouTube, X, WhatsApp]}
+              - {label: Full link, name: url, widget: string}
