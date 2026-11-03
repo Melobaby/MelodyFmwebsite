@@ -77,3 +77,5 @@ section.studio-sec{padding-top:0}
 
 .studio-img{width:100%;aspect-ratio:16/9;max-height:540px;object-fit:cover;border-radius:16px;display:block;background:var(--soft)}
 @media(max-width:780px){.studio-img{aspect-ratio:4/3}}
+
+.contact a{overflow-wrap:anywhere}
