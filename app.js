@@ -5,15 +5,46 @@ const mins=t=>{const[h,m]=t.split(":").map(Number);return h*60+m};
 const fmt=t=>{const[h,m]=t.split(":").map(Number);return`${h%12||12}:${String(m).padStart(2,"0")} ${h<12?"AM":"PM"}`};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function rows(list,live){return list.length?`<ul class="rows">${list.map(s=>{const n=live!=null&&mins(s.start)<=live&&live<mins(s.end);return`<li${n?' class="now"':""}><span class="time">${fmt(s.start)} – ${fmt(s.end)}</span><span>${esc(s.title)}${n?' <span class="badge">On air</span>':""}</span><span class="host">${esc(s.host)}</span></li>`}).join("")}</ul>`:'<p class="empty">No programmes listed for this day yet.</p>'}
+const STREAM="https://radio.sternhost.com:8370/radio.mp3";
+const radio=new Audio();let started=false,cur=location.pathname+location.search;
+(()=>{const s=document.createElement("style");s.dataset.keep="1";s.textContent='#bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#000;color:#fff;border-top:2px solid #c9a227;display:flex;justify-content:space-between;align-items:center;padding:10px 24px calc(10px + env(safe-area-inset-bottom,0px))}#bar .live{display:flex;align-items:center;gap:10px;font-weight:600}#bar i{width:10px;height:10px;border-radius:50%;background:#666}#bar.on i{background:#e8731a;animation:pulse 1.4s infinite}#bar button{background:#c9a227;color:#000;border:0;border-radius:999px;padding:8px 22px;font:700 .95rem "Source Sans 3",sans-serif;cursor:pointer}';document.head.appendChild(s)})();
+function toggle(){if(radio.paused){radio.src=STREAM;radio.play().catch(()=>{});started=true}else{radio.pause();radio.removeAttribute("src");radio.load()}setUI()}
+function setUI(){const on=!radio.paused;
+  const b=document.getElementById("play");if(b){b.classList.toggle("playing",on);b.lastChild.textContent=on?"Pause":"Listen live"}
+  let bar=document.getElementById("bar");
+  if(started&&!bar){bar=document.createElement("div");bar.id="bar";bar.innerHTML='<span class="live"><i></i><span>Melody 107.7 FM</span></span><button type="button" id="barbtn"></button>';document.body.appendChild(bar);document.getElementById("barbtn").onclick=toggle;document.body.style.paddingBottom="64px"}
+  if(bar){bar.classList.toggle("on",on);document.getElementById("barbtn").textContent=on?"Pause":"Play live"}}
+["play","pause","error"].forEach(ev=>radio.addEventListener(ev,setUI));
+function go(url,push){
+  fetch(url).then(r=>{if(!r.ok)throw 0;return r.text().then(t=>({t,u:r.url}))}).then(({t,u})=>{
+    const d=new DOMParser().parseFromString(t,"text/html"),m=d.querySelector("main");if(!m)throw 0;
+    document.querySelectorAll("head style[data-page]").forEach(s=>s.remove());
+    d.querySelectorAll("head style").forEach(s=>{const n=document.createElement("style");n.textContent=s.textContent;n.dataset.page="1";document.head.appendChild(n)});
+    document.querySelector("main").innerHTML=m.innerHTML;document.title=d.title;
+    const h=new URL(url,location.href).hash;
+    if(push)history.pushState({},"",u+h);
+    cur=location.pathname+location.search;
+    const el=h&&document.querySelector(h);if(el)el.scrollIntoView();else scrollTo(0,0);
+    init();
+  }).catch(()=>{location.href=url});
+}
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");
+  if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||a.target||a.hasAttribute("download"))return;
+  const u=new URL(a.href,location.href);if(u.origin!==location.origin||/^\/admin/.test(u.pathname))return;
+  if(/\.[a-z0-9]+$/i.test(u.pathname)&&!/\.html$/.test(u.pathname))return;
+  if(u.pathname===location.pathname&&u.search===location.search)return;
+  e.preventDefault();go(u.href,true)});
+window.addEventListener("popstate",()=>{if(location.pathname+location.search===cur)return;go(location.href,false)});
 async function init(){
+  document.querySelectorAll("head style:not([data-keep])").forEach(s=>s.dataset.page="1");
   const NAV=[["index.html","Home"],["schedule.html","Schedule"],["shows.html","Shows"],["stories.html","Stories"],["team.html","Team"],["transcripts.html","Transcripts"],["index.html#contact","Contact"]];
   const nv=document.querySelector("header nav");
   if(nv){const norm=s=>s.replace(/\.html$/,"")||"index";const here=norm(location.pathname.split("/").pop());
     nv.innerHTML=NAV.map(([h,t])=>`<a href="${h}"${!h.includes("#")&&norm(h)===here?' aria-current="page"':""}>${t}</a>`).join("");
-    const css=document.createElement("style");css.textContent="@media(max-width:780px){nav{gap:16px!important;font-size:.9rem!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;min-width:0;margin-left:12px}.brand img{width:40px!important;height:40px!important}}";document.head.appendChild(css)}
+    const css=document.getElementById("navcss")||document.createElement("style");css.id="navcss";css.dataset.keep="1";css.textContent="@media(max-width:780px){nav{gap:16px!important;font-size:.9rem!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;min-width:0;margin-left:12px}.brand img{width:40px!important;height:40px!important}}";document.head.appendChild(css)}
 
   const btn=document.getElementById("play");
-  if(btn){const a=new Audio();btn.onclick=()=>{if(a.paused){a.src=btn.dataset.stream;a.play();btn.classList.add("playing");btn.lastChild.textContent="Pause"}else{a.pause();a.removeAttribute("src");a.load();btn.classList.remove("playing");btn.lastChild.textContent="Listen live"}}}
+  if(btn)btn.onclick=toggle;setUI();
 
   get("site.json").then(site=>{const ft=document.querySelector("footer");if(!ft||!site)return;
     const soc=(site.social||[]).filter(s=>s.url).map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join("");
