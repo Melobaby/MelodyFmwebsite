@@ -67,3 +67,13 @@ footer .fbase{display:block;margin-top:32px;padding-top:20px;border-top:1px soli
 .soc a{border:1px solid #3a3a3a;border-radius:999px;padding:6px 14px;font-size:.9rem}
 .soc a:hover{border-color:var(--gold)}
 @media(max-width:780px){footer .fgrid{grid-template-columns:1fr}}
+
+section.studio-sec{padding-top:0}
+.studio{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
+.studio img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:16px;display:block;background:var(--soft)}
+.studio h2{font-size:1.9rem;margin-bottom:12px}
+.studio p{color:#444;max-width:40ch}
+@media(max-width:780px){.studio{grid-template-columns:1fr;gap:24px}}
+
+.studio-img{width:100%;aspect-ratio:16/9;max-height:540px;object-fit:cover;border-radius:16px;display:block;background:var(--soft)}
+@media(max-width:780px){.studio-img{aspect-ratio:4/3}}
