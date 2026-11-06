@@ -90,6 +90,15 @@
         "saturday",
         "sunday"
       ]
+    },
+    {
+      "title": "MIMI AYE",
+      "host": "OBA YEMI ODUNODU",
+      "start": "21:00",
+      "end": "23:00",
+      "days": [
+        "friday"
+      ]
     }
   ]
 }
