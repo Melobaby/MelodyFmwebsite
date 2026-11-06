@@ -180,6 +180,25 @@
       "days": [
         "saturday"
       ]
+    },
+    {
+      "title": "MORNING DEW",
+      "host": "PROPHET SAMUEL ADEBAYO OJO BABA AUTHORITY",
+      "start": "05:00",
+      "end": "05:30",
+      "days": [
+        "saturday",
+        "sunday"
+      ]
+    },
+    {
+      "title": "WEEKEND GALORE",
+      "host": "CHINKO BABE",
+      "start": "09:00",
+      "end": "10:00",
+      "days": [
+        "saturday"
+      ]
     }
   ]
 }
